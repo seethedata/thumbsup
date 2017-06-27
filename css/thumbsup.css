@@ -121,3 +121,8 @@ body{
 	text-align: right;
 }
 
+.projectList {
+	max-width:900px;
+	padding:30px;
+	margin:40px auto;
+}

@@ -69,7 +69,9 @@ func initialize() {
 func main() {
 	initialize()
 	router = mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/", enterFormHandler)
+	router.HandleFunc("/projectList", projectListHandler)
+	router.HandleFunc("/enter", enterFormHandler)
+	router.HandleFunc("/", approveFormHandler)
 
 	http.Handle("/images/", http.FileServer(http.Dir("/app")))
 	http.Handle("/css/", http.FileServer(http.Dir("/app")))

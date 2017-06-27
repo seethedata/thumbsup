@@ -1,59 +1,62 @@
 {{define "head"}}
-	<head>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width, initial-scale=1"><meta charset="UTF-8">
-		<link href="/css/thumbsup.css" rel="stylesheet"/>
-		<script type="text/javascript" src="/js/web3.js"></script>
-		<script type="text/javascript" src="/js/thumbsup.js"></script>
-		<title>BuCkLe</title>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1"><meta charset="UTF-8">
+	<title>ThumbsUp</title>
+	<link href="/css/bootstrap.min.css" rel="stylesheet"/>
+	<link href="/css/thumbsup.css" rel="stylesheet"/>
+	<script type="text/javascript" src="/js/jquery.min.js"></script>
+	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="/js/web3.js"></script>
+	<script type="text/javascript" src="/js/thumbsup.js"></script>
 	<script>
 	var Web3 = require('web3');
 	var web3 = new Web3();
 	web3.setProvider(new web3.providers.HttpProvider('http://{{.BlockchainAPI}}'));
-
+	
 	if (! navigator.cookieEnabled) {
 		window.location={{.URL}} + "/missingRequirements";
 	}
-
+	
 	function formatAmount(a) {
 		return parseFloat(a).toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,');
 	}
-
+	
 	function formatInput(e,b) {
-    		var selection = window.getSelection().toString();
-    		if ( selection !== '' ) {
-        		return;
-    		}
+	    		var selection = window.getSelection().toString();
+	    		if ( selection !== '' ) {
+	        		return;
+	    		}
 		if(event.keyCode == 13){
-        		$(b).click();
-    		}
-    		if ( $.inArray( event.keyCode, [38,40,37,39] ) !== -1 ) {
-        		return;
-    		}
+	        		$(b).click();
+	    		}
+	    		if ( $.inArray( event.keyCode, [38,40,37,39] ) !== -1 ) {
+	        		return;
+	    		}
 		
 		var input = $("#"+e.id).val();
- 
+	 
 		var input = input.replace(/[\D\s\._\-]+/g, "");
- 
+	 
 		input = input ? parseInt( input, 10 ) : 0;
- 
+	 
 		$("#" + e.id).val( function() {
-    			return ( input === 0 ) ? "" : input.toLocaleString( "en-US" );
+	    			return ( input === 0 ) ? "" : input.toLocaleString( "en-US" );
 		} );
- 
+	 
 	}
 	
 	function cleanInput(a) {
 		return parseInt(a.replace(/,/g,"").replace(/\./g,""));
 	}
-
+	
 	function showPersona() {
 			$("#persona").toggle();
 	}
 	</script>
 	<noscript>
-		<h2 style="display:block">Please ensure that Cookies and Javascript are enabled to continue.</h2>
+		<h2 style="display:block">Please ensure that Javascript is enabled to continue.</h2>
 	</noscript>
-	</head>
+</head>
 {{end}}

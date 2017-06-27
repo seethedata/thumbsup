@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html>
+{{template "head" .}}
+<body>
+
+<div class="form-style-10">
+	<h1>ThumbsUp<span>Register Approval</span></h1>
+<form>
+    <div class="section"><span>1</span> Project Details</div>
+    <div class="inner-wrap">
+	<p><label>Project Name</label> 
+		<select name="projectName">
+			<option value='Project 1'>Project 1</option>
+			<option value='Project 2'>Project 2</option>
+			<option value='Project 3'>Project 3</option>
+		</select>
+	</p>
+	<p><label>Environment Requested</label>
+	<div id="environment">
+		<span id="description">Small (1 CPUs, 4GB RAM, 1 TBs, 1 NICs)</span>
+	</div>
+	</p>
+    </div>
+    <div class="section"><span>2</span>Approver</div>
+    <div class="inner-wrap">
+       	<label>Approver Name</label>
+    	<input type="text" name="approverName"></input>
+	<label>Approver</label>
+	<select name="approverType">
+	        <option value="Clinical"/>Clinical</option>
+	        <option value="Doctor"/>Doctor</option>
+	        <option value="Developer"/>Developer</option>
+	        <option value="Application"/>Application</option>
+	        <option value="IT"/>IT</option>
+	</select>
+
+    </div>
+    <div class="button-section">
+    	<input type="submit" name="approve" value="Approve"/>
+    </div>
+</form>
+</div>
+
+</body>
+</html>
+
