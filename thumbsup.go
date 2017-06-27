@@ -17,9 +17,10 @@ import (
 )
 
 var (
-	pool    *redis.Pool
-	mainURL string
-	router  *mux.Router
+	pool          *redis.Pool
+	mainURL       string
+	blockchainAPI string
+	router        *mux.Router
 )
 
 //Product is a Dell product
@@ -32,8 +33,9 @@ type Product struct {
 
 //Payload is a generic Container to hold data for templates
 type Payload struct {
-	URL      string `json:"URL" redis:"URL"`
-	Products []Product
+	URL           string `json:"URL" redis:"URL"`
+	BlockchainAPI string `json:"blockchainAPI" redis:"blockchainAPI"`
+	Products      []Product
 }
 
 func newPool(addr string, port string, password string) *redis.Pool {
@@ -59,7 +61,7 @@ func initialize() {
 	var password string
 	var port string
 
-	mainURL, host, password, port = getServiceCreds()
+	mainURL, host, password, port, blockchainAPI = getServiceCreds()
 
 	pool = newPool(host, port, password)
 }

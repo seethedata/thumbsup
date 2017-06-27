@@ -7,6 +7,7 @@ import (
 	"github.com/cloudfoundry-community/go-cfenv"
 	"io/ioutil"
 	"log"
+	"os"
 	"strconv"
 )
 
@@ -22,7 +23,7 @@ type cfService struct {
 	Password string `json:"password"`
 }
 
-func getServiceCreds() (string, string, string, string) {
+func getServiceCreds() (string, string, string, string, string) {
 	var cfServices cfServices
 	fmt.Println("Starting")
 	file, err := ioutil.ReadFile("./services.json")
@@ -33,6 +34,7 @@ func getServiceCreds() (string, string, string, string) {
 
 	env, _ := cfenv.Current()
 	mainURL = "http://" + env.ApplicationURIs[0]
+	blockchainAPI = os.Getenv("BLOCKCHAINAPI")
 	services := env.Services
 
 	var credentials map[string]interface{}
@@ -68,5 +70,5 @@ func getServiceCreds() (string, string, string, string) {
 			break
 		}
 	}
-	return mainURL, host, password, port
+	return mainURL, host, password, port, blockchainAPI
 }
