@@ -1,0 +1,11 @@
+---
+applications:
+- name: thumbsup
+  memory: 512M
+disk_quota: 100MB
+buildpack: go_buildpack
+env:
+        GOPACKAGENAME : "thumbsup"
+        BLOCKCHAINAPI: 
+services:
+- TILT_REDIS

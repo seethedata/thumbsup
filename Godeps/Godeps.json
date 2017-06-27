@@ -1,0 +1,31 @@
+{
+	"ImportPath": "github.com/seethedata/thumbsup",
+	"GoVersion": "go1.7",
+	"GodepVersion": "v79",
+	"Deps": [
+		{
+			"ImportPath": "github.com/cloudfoundry-community/go-cfenv",
+			"Comment": "v1.17.0",
+			"Rev": "f920e9562d5f951cbf11785728f67258c38a10d0"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/internal",
+			"Comment": "v1.0.0-21-g0d253a6",
+			"Rev": "0d253a66e6e1349f4581d6d2b300ee434ee2da9f"
+		},
+		{
+			"ImportPath": "github.com/garyburd/redigo/redis",
+			"Comment": "v1.0.0-21-g0d253a6",
+			"Rev": "0d253a66e6e1349f4581d6d2b300ee434ee2da9f"
+		},
+		{
+			"ImportPath": "github.com/gorilla/mux",
+			"Comment": "v1.3.0-5-g599cba5",
+			"Rev": "599cba5e7b6137d46ddf58fb1765f5d928e69604"
+		},
+		{
+			"ImportPath": "github.com/mitchellh/mapstructure",
+			"Rev": "53818660ed4955e899c0bcafa97299a388bd7c8e"
+		}
+	]
+}
