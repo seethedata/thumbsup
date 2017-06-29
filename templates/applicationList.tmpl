@@ -12,17 +12,19 @@
 			<tr>
 			<th>Application Name</th>
 			<th>Application Status</th>
-			<th>Required Approvers</th>
-			<th>Approvals</th>
+			<th>Required Approvals</th>
+			<th>Current Approvals</th>
 			</tr>
 		</thead>
 		<tbody>
+		{{range .Applications}}
 			<tr>
-			<td>Application 1</td>
-			<td>Submitted</td>
-			<td>Clinical, IT</td>
-			<td>IT</td>
+			<td>{{.Name}}</td>
+			<td>{{.Status}}</td>
+			<td>{{.RequiredApprovals}}</td>
+			<td>{{.CurrentApprovals}}</td>
 			</tr>
+		{{end}}
 			<tr>
 			<td>Application 2</td>
 			<td>Approved</td>

@@ -33,9 +33,9 @@ type Product struct {
 
 //Payload is a generic Container to hold data for templates
 type Payload struct {
-	URL           string `json:"URL" redis:"URL"`
-	BlockchainAPI string `json:"blockchainAPI" redis:"blockchainAPI"`
-	Products      []Product
+	URL           string        `json:"URL" redis:"URL"`
+	BlockchainAPI string        `json:"blockchainAPI" redis:"blockchainAPI"`
+	Applications  []Application `json:data redis:data`
 }
 
 func newPool(addr string, port string, password string) *redis.Pool {

@@ -12,5 +12,6 @@ func approveFormHandler(w http.ResponseWriter, r *http.Request) {
 	var data Payload
 	data.URL = mainURL
 	data.BlockchainAPI = blockchainAPI
+	data.Applications = getApplications()
 	t.Execute(w, data)
 }
