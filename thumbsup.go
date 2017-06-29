@@ -69,7 +69,7 @@ func initialize() {
 func main() {
 	initialize()
 	router = mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/projectList", projectListHandler)
+	router.HandleFunc("/applicationList", applicationListHandler)
 	router.HandleFunc("/enter", enterFormHandler)
 	router.HandleFunc("/", approveFormHandler)
 
