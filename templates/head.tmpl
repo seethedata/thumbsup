@@ -8,12 +8,8 @@
 	<link href="/css/thumbsup.css" rel="stylesheet"/>
 	<script type="text/javascript" src="/js/jquery.min.js"></script>
 	<script type="text/javascript" src="/js/bootstrap.min.js"></script>
-	<script type="text/javascript" src="/js/web3.js"></script>
 	<script type="text/javascript" src="/js/thumbsup.js"></script>
 	<script>
-	var Web3 = require('web3');
-	var web3 = new Web3();
-	web3.setProvider(new web3.providers.HttpProvider('http://{{.BlockchainAPI}}'));
 	
 	if (! navigator.cookieEnabled) {
 		window.location={{.URL}} + "/missingRequirements";

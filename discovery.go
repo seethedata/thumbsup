@@ -1,4 +1,4 @@
-//bcl.go is a demo of using blockchain for securities management
+//discovery.go sets up the environment
 package main
 
 import (

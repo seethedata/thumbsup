@@ -7,26 +7,26 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"log"
 	"math/big"
+	"os"
 )
 
+//Application represents an application submission
 type Application struct {
-	Name              string         `json:name`
-	Address           common.Address `json:address`
-	Status            string         `json:status`
-	Specification     string         `json:specification`
-	RequiredApprovals string         `json:requiredApprovers`
-	CurrentApprovals  string         `json:currentApprovers`
+	Name              string `json:name`
+	Address           string `json:address`
+	Status            string `json:status`
+	Specification     string `json:specification`
+	RequiredApprovals string `json:requiredApprovers`
+	CurrentApprovals  string `json:currentApprovers`
 }
 
 func getApplications() (apps []Application) {
-	approvers := [5]string{"Clinical", "Doctor", "Developer", "Application", "IT"}
-
-	conn, err := ethclient.Dial("http://147.178.206.104:8545")
+	conn, err := ethclient.Dial("http://" + blockchainAPI)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
 	}
 
-	metaContract, err := NewMetaContract(common.HexToAddress("0xa540301eda3c7ed9a1cfed98fc504bf5f8c400ef"), conn)
+	metaContract, err := NewMetaContract(common.HexToAddress(os.Getenv("METACONTRACT")), conn)
 	if err != nil {
 		log.Fatalf("Failed to convert address: %v", err)
 	}
@@ -36,7 +36,7 @@ func getApplications() (apps []Application) {
 		log.Fatalf("Failed to get number of applications: %v", err)
 	}
 	max := int(numberOfApplications.Int64()) + 1
-	for i := 4; i < max; i++ {
+	for i := 1; i < max; i++ {
 		address, name, err := metaContract.GetApplication(nil, big.NewInt(int64(i)))
 		if err != nil {
 			log.Fatalf("Failed to get application %i: %v", i, err)
@@ -98,7 +98,7 @@ func getApplications() (apps []Application) {
 				}
 			}
 		}
-		apps = append(apps, Application{Name: name, Address: address, Status: status, Specification: spec, RequiredApprovals: required, CurrentApprovals: current})
+		apps = append(apps, Application{Name: name, Address: address.String(), Status: status, Specification: spec, RequiredApprovals: required, CurrentApprovals: current})
 	}
 	return apps
 }

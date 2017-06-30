@@ -12,7 +12,6 @@ func applicationListHandler(w http.ResponseWriter, r *http.Request) {
 	check("Parse template", err)
 	var data Payload
 	data.URL = mainURL
-	data.BlockchainAPI = blockchainAPI
 	data.Applications = getApplications()
 	if err != nil {
 		log.Fatalf("Failed to create json: %v", err)

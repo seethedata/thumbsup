@@ -166,21 +166,12 @@
 			"Rev": "8dd4211afb5d08dbb39a533b9bb9e4b486351df6"
 		},
 		{
-			"ImportPath": "github.com/rs/xhandler",
-			"Comment": "v.11-2-gfe78910",
-			"Rev": "fe789104c7f474ee779e6d39c745f15c6a950dc2"
-		},
-		{
 			"ImportPath": "golang.org/x/crypto/pbkdf2",
 			"Rev": "5ef0053f77724838734b6945dd364d3847e5de1d"
 		},
 		{
 			"ImportPath": "golang.org/x/crypto/scrypt",
 			"Rev": "5ef0053f77724838734b6945dd364d3847e5de1d"
-		},
-		{
-			"ImportPath": "golang.org/x/net/context",
-			"Rev": "1f9224279e98554b6a6432d4dd998a739f8b2b7c"
 		},
 		{
 			"ImportPath": "golang.org/x/net/websocket",

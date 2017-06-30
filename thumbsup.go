@@ -1,18 +1,11 @@
-//bcl.go is a demo of using blockchain for securities management
+//thumbsup.go is a blockchain demo for approvals
 package main
 
 import (
-	//	"encoding/json"
-	//	"fmt"
-	//	"github.com/cloudfoundry-community/go-cfenv"
 	"github.com/garyburd/redigo/redis"
 	"github.com/gorilla/mux"
-	//	"github.com/satori/go.uuid"
-	//	"io/ioutil"
 	"log"
 	"net/http"
-	//	"strconv"
-	//	"strings"
 	"time"
 )
 
@@ -20,22 +13,15 @@ var (
 	pool          *redis.Pool
 	mainURL       string
 	blockchainAPI string
+	metacontract  string
 	router        *mux.Router
+	approvers     [5]string
 )
-
-//Product is a Dell product
-type Product struct {
-	Name  string `json:"name"`
-	Model string `json:"model"`
-	Image string `json:"image"`
-	Price int    `json:"price"`
-}
 
 //Payload is a generic Container to hold data for templates
 type Payload struct {
-	URL           string        `json:"URL" redis:"URL"`
-	BlockchainAPI string        `json:"blockchainAPI" redis:"blockchainAPI"`
-	Applications  []Application `json:data redis:data`
+	URL          string        `json:"URL" redis:"URL"`
+	Applications []Application `json:data redis:data`
 }
 
 func newPool(addr string, port string, password string) *redis.Pool {
@@ -64,12 +50,15 @@ func initialize() {
 	mainURL, host, password, port, blockchainAPI = getServiceCreds()
 
 	pool = newPool(host, port, password)
+	approvers = [5]string{"Clinical", "Doctor", "Developer", "Application", "IT"}
 }
 
 func main() {
 	initialize()
 	router = mux.NewRouter().StrictSlash(true)
-	router.HandleFunc("/applicationList", applicationListHandler)
+	router.HandleFunc("/list", applicationListHandler)
+	router.HandleFunc("/create", createAppHandler)
+	router.HandleFunc("/approve", approveHandler)
 	router.HandleFunc("/enter", enterFormHandler)
 	router.HandleFunc("/", approveFormHandler)
 
