@@ -82,6 +82,7 @@ func getApplications() (apps []Application) {
 		required := ""
 		current := ""
 		_, req, cur, err := contract.GetApprovalsStatus(nil)
+		log.Printf("Req: %s | Cur: %s\n", req, cur)
 		for i := 0; i < 5; i++ {
 			if int(req[i].Int64()) == 1 {
 				if required == "" {

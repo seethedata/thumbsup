@@ -21,6 +21,14 @@ func enterFormHandler(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, data)
 }
 
+func submittedHandler(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("templates/submitted.tmpl", "templates/head.tmpl")
+	check("Parse template", err)
+	var data Payload
+	data.URL = mainURL
+	t.Execute(w, data)
+}
+
 func createAppHandler(w http.ResponseWriter, r *http.Request) {
 	var reqApprovers [5]*big.Int
 	conn, err := ethclient.Dial("http://" + blockchainAPI)
@@ -72,5 +80,5 @@ func createAppHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Failed to add to metacontract: %v", err)
 	}
 
-	http.Redirect(w, r, mainURL+"/list", http.StatusFound)
+	http.Redirect(w, r, mainURL+"/submitted", http.StatusFound)
 }

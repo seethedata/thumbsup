@@ -126,3 +126,14 @@ body{
 	padding:30px;
 	margin:40px auto;
 }
+
+#message {
+	text-align : center
+}
+
+#listIcon {
+	color: #fff;
+	float : right;
+	position : relative;
+	top : -1em;
+}

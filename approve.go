@@ -23,6 +23,14 @@ func approveFormHandler(w http.ResponseWriter, r *http.Request) {
 	t.Execute(w, data)
 }
 
+func approvedHandler(w http.ResponseWriter, r *http.Request) {
+	t, err := template.ParseFiles("templates/approved.tmpl", "templates/head.tmpl")
+	check("Parse template", err)
+	var data Payload
+	data.URL = mainURL
+	t.Execute(w, data)
+}
+
 func approveHandler(w http.ResponseWriter, r *http.Request) {
 	conn, err := ethclient.Dial("http://" + blockchainAPI)
 	if err != nil {
@@ -46,12 +54,12 @@ func approveHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		log.Fatalf("Failed to get contract: %v", err)
 	}
-	// Deploy contract
+	// Register Approval
 	_, err = contract.AddApprover(auth, common.HexToAddress(os.Getenv("USERADDRESS")), approverType)
 	if err != nil {
 		log.Fatalf("Failed to register approval: %v", err)
 	}
 
-	http.Redirect(w, r, mainURL+"/list", http.StatusFound)
+	http.Redirect(w, r, mainURL+"/approved", http.StatusFound)
 
 }
