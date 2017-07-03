@@ -80,22 +80,21 @@
 			}
 			$("#screen").scrollLeft(0);
 			$("#screen").scrollTop($("#screen").prop("scrollHeight"));
-			console.log(current + " " + $("#screen").scrollTop() + " " + $("#screen").height());
 			current=current + 1;
 		}
 	}
 </script>
 <body onload="deployApp();">
-<div class="form-style-10 screen">
+<div class="form-style-10 screen" style="min-height:30em; max-height:30em;">
 	<h1>ThumbsUp
 		<span>Deplying application</span>
 		<a href="/list" id="listIcon"><span class="glyphicon glyphicon-th-list"></span></a>
 	</h1>
-    <div id="screen" class="inner-wrap">
+    <div id="screen" class="inner-wrap" style="min-height:20em; max-height:20em;">
     </div>
 </div>
 <script>
-var interval=setInterval(deployApp, 600);
+var interval=setInterval(deployApp, 400);
 </script>
 </body>
 </html>
