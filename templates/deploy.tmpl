@@ -1,0 +1,101 @@
+<!DOCTYPE HTML>
+<html>
+{{template "head" .}}
+<script>
+	var message=new Array();
+	var current=0;
+	message[0]="Using manifest file /home/vagrant/go/src/github.com/appdev/analysisApp/manifest.yml<br/>";
+	message[1]="<br/>";
+	message[2]="Creating app analysisApp in org CompanyCo / space Production as christopher.ghiorzi@companyco.com...<br/>";
+	message[3]="OK<br/>";
+	message[4]="<br/>";
+	message[5]="Creating route analysisApp.companyco.com...<br/>";
+	message[6]="OK<br/>";
+	message[7]="<br/>";
+	message[8]="Binding analysisApp.companyco.com to analysisApp...<br/>";
+	message[9]="OK<br/>";
+	message[10]="<br/>";
+	message[11]="Uploading analysisApp...<br/>";
+	message[12]="Uploading app files from: /home/vagrant/go/src/github.com/appdev/analysisApp<br/>";
+	message[13]="Uploading 1.4M, 726 files<br/>";
+	message[14]="Done uploading<br/>";
+	message[15]="OK<br/>";
+	message[16]="<br/>";
+	message[17]="Starting app analysisApp in org CompanyCo / space Production as christopher.ghiorzi@companyco.com...<br/>";
+	message[18]="Downloading go_buildpack...<br/>";
+	message[19]="Downloaded go_buildpack<br/>";
+	message[20]="Creating container<br/>";
+	message[21]="Successfully created container<br/>";
+	message[22]="Downloading app package...<br/>";
+	message[23]="Downloaded app package (2.9M)<br/>";
+	message[24]="-----> Go Buildpack version 1.8.5<br/>";
+	message[25]="-----> Checking Godeps/Godeps.json file<br/>";
+	message[26]="-----> Installing godep v79<br/>";
+	message[27]="       Copy [/tmp/buildpacks/54970fe06aa72b324386db7fb789b17f/dependencies/https___buildpacks.cloudfoundry.org_dependencies_godep_godep-v79-linux-x64-9e37ce0f.tgz]<br/>";
+	message[28]="-----> Installing glide v0.12.3<br/>";
+	message[29]="       Copy [/tmp/buildpacks/54970fe06aa72b324386db7fb789b17f/dependencies/https___buildpacks.cloudfoundry.org_dependencies_glide_glide-v0.12.3-linux-x64-aa256363.tgz]<br/>";
+	message[30]="-----> Installing go 1.7.6<br/>";
+	message[31]="       Copy [/tmp/buildpacks/54970fe06aa72b324386db7fb789b17f/dependencies/https___buildpacks.cloudfoundry.org_dependencies_go_go1.7.6.linux-amd64-a98caa07.tar.gz]<br/>";
+	message[32]="-----> Running: go install -tags cloudfoundry -buildmode pie .<br/>";
+	message[33]="Exit status 0<br/>";
+	message[34]="Uploading droplet, build artifacts cache...<br/>";
+	message[35]="Uploading build artifacts cache...<br/>";
+	message[36]="Uploading droplet...<br/>";
+	message[37]="Uploaded build artifacts cache (193B)<br/>";
+	message[38]="Uploaded droplet (6.7M)<br/>";
+	message[39]="Uploading complete<br/>";
+	message[40]="Destroying container<br/>";
+	message[41]="Successfully destroyed container<br/>";
+	message[42]="<br/>";
+	message[43]="1 of 1 instances running<br/>";
+	message[44]="<br/>";
+	message[45]="App started<br/>";
+	message[46]="<br/>";
+	message[47]="<br/>";
+	message[48]="OK<br/>";
+	message[49]="<br/>";
+	message[50]="App analysisApp was started using this command `analysisApp`<br/>";
+	message[51]="<br/>";
+	message[52]="Showing health and status for app analysisApp in org CompanyCo / space Production as christopher.ghiorzi@companyco.com...<br/>";
+	message[53]="OK<br/>";
+	message[54]="<br/>";
+	message[55]="requested state: started<br/>";
+	message[56]="instances: 1/1<br/>";
+	message[57]="usage: 512M x 1 instances<br/>";
+	message[58]="urls: analysisApp.companyco.com<br/>";
+	message[59]="last uploaded: Mon Jul 3 15:22:27 UTC 2017<br/>";
+	message[60]="stack: cflinuxfs2<br/>";
+	message[61]="buildpack: go_buildpack<br/>";
+	message[62]="<br/>";
+	message[63]="     state     since                    cpu    memory      disk        details<br/>";
+	message[64]="#0   running   2017-07-03 03:23:15 PM   0.0%   0 of 512M   0 of 100M<br/>";
+
+	function deployApp() {
+		if (current > message.length - 1) {
+			clearInterval(interval);
+		} else {
+			$("#screen").html($("#screen").html() + message[current]);
+			if (message[current] == ""){ 
+				$("#screen").html($("#screen").html() + message[current]);
+			}
+			$("#screen").scrollLeft(0);
+			$("#screen").scrollTop($("#screen").prop("scrollHeight"));
+			console.log(current + " " + $("#screen").scrollTop() + " " + $("#screen").height());
+			current=current + 1;
+		}
+	}
+</script>
+<body onload="deployApp();">
+<div class="form-style-10 screen">
+	<h1>ThumbsUp
+		<span>Deplying application</span>
+		<a href="/list" id="listIcon"><span class="glyphicon glyphicon-th-list"></span></a>
+	</h1>
+    <div id="screen" class="inner-wrap">
+    </div>
+</div>
+<script>
+var interval=setInterval(deployApp, 600);
+</script>
+</body>
+</html>

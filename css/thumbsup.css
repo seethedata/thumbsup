@@ -1,5 +1,7 @@
+html { height : 100%}
 body{
 	background:#AEE4FF;
+	height:100%;
 }
 .form-style-10{
 	max-width:450px;
@@ -12,6 +14,7 @@ body{
 	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 	-moz-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
 	-webkit-box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.13);
+	height: 80%;
 }
 .form-style-10 .inner-wrap{
 	padding: 30px;
@@ -137,3 +140,23 @@ body{
 	position : relative;
 	top : -1em;
 }
+
+.screen {
+	min-height : 80%;
+	max-height : 80%;
+	max-width:900px;
+	padding:30px;
+	margin:40px auto;
+	overflow: hidden;
+}
+
+#screen {
+	min-height : 80%;
+	max-height : 80%;
+	color:#1aee25;
+	background-color:#000000;
+	overflow: auto;
+	
+}
+
+

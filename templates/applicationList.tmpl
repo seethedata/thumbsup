@@ -2,11 +2,16 @@
 <html>
 {{template "head" .}}
 <body>
+<script>
+function deployApp() {
+	window.location.href="/deploy";
+}
+</script>
 
 <div class="form-style-10 applicationList">
 	<h1>ThumbsUp<span>Application Approval Status</span></h1>
 <form>
-    <div class="inner-wrap applicationList">
+    <div class="inner-wrap">
 	<table class="table">
 		<thead>
 			<tr>
@@ -20,7 +25,11 @@
 		{{range .Applications}}
 			<tr>
 			<td>{{.Name}}</td>
-			<td>{{.Status}}</td>
+			<td>{{.Status}}
+				{{if eq .Status "Approved"}}
+					<button class="btn btn-success" onClick="deployApp();">Deploy</button>	
+				{{end}}
+			</td>
 			<td>{{.RequiredApprovals}}</td>
 			<td>{{.CurrentApprovals}}</td>
 			</tr>
