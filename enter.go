@@ -63,7 +63,8 @@ func createAppHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Add required approvers to contract. It returns tx and err
 	for _, a := range r.Form["approverType"] {
-		_, err := contract.AddRequiredRole(auth, a)
+		tx, err := contract.AddRequiredRole(auth, a)
+		log.Printf("Tx is %s\n", tx)
 		if err != nil {
 			log.Fatalf("Failed to add approver: %v", err)
 		}
@@ -75,7 +76,8 @@ func createAppHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Update metacontract. It returns tx ,err
-	_, err = metaContract.AddApplication(auth, address, name)
+	tx, err := metaContract.AddApplication(auth, address, name)
+	log.Printf("Tx is %s\n", tx)
 	if err != nil {
 		log.Fatalf("Failed to add to metacontract: %v", err)
 	}

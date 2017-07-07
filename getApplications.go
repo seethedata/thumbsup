@@ -36,8 +36,8 @@ func getApplications() (apps []Application) {
 		log.Fatalf("Failed to get number of applications: %v", err)
 	}
 	log.Printf("Found %s applications\n", numberOfApplications)
-	max := int(numberOfApplications.Int64()) + 1
-	for i := 1; i < max; i++ {
+	max := int(numberOfApplications.Int64())
+	for i := 0; i < max; i++ {
 		address, name, err := metaContract.GetApplication(nil, big.NewInt(int64(i)))
 		if err != nil {
 			log.Fatalf("Failed to get application %i: %v", i, err)

@@ -26,7 +26,7 @@ function deployApp() {
 			<tr>
 			<td>{{.Name}}</td>
 			<td>{{.Status}}
-				{{if ne .Status "Approved"}}
+				{{if eq .Status "Approved"}}
 					<button class="btn btn-success" onclick="deployApp();return false;">Deploy</button>	
 				{{end}}
 			</td>
