@@ -30,7 +30,7 @@ func submittedHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func createAppHandler(w http.ResponseWriter, r *http.Request) {
-	var reqApprovers [5]*big.Int
+	var reqApprovers []string
 	conn, err := ethclient.Dial("http://" + blockchainAPI)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
@@ -51,17 +51,10 @@ func createAppHandler(w http.ResponseWriter, r *http.Request) {
 	name := r.Form["applicationName"][0]
 	numApprovers := big.NewInt(int64(len(r.Form["approverType"])))
 
-	for i := 0; i < 5; i++ {
-		reqApprovers[i] = big.NewInt(0)
+	for _, a := range r.Form["approverType"] {
+		reqApprovers = append(reqApprovers, a)
 	}
 
-	for _, v := range r.Form["approverType"] {
-		index, err := strconv.ParseInt(v, 10, 0)
-		if err != nil {
-			log.Fatalf("Failed to convert approverType: %v", err)
-		}
-		reqApprovers[index] = big.NewInt(1)
-	}
 	// Deploy contract. It returns address, tx, contract, err
 	address, _, _, err := DeployContract(auth, conn, common.HexToAddress(os.Getenv("USERADDRESS")), size, name, numApprovers, reqApprovers)
 	if err != nil {

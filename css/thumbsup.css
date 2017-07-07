@@ -1,6 +1,8 @@
 body{
 	background:#AEE4FF;
 }
+
+
 .form-style-10{
 	max-width:450px;
 	padding:30px;
@@ -153,4 +155,7 @@ body{
 	
 }
 
-
+.error {
+	color: #CCFF33 !important;
+	background-color: #CC0033 !important
+}

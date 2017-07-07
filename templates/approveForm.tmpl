@@ -23,7 +23,7 @@
 </script>
 <div class="form-style-10">
 	<h1>ThumbsUp<span>Register Approval</span></h1>
-<form class="form" action="/approve" method="post">
+<form id="approveForm" name="approveForm" class="form" action="/approve" method="post">
     <div class="section"><span>1</span> Application Details</div>
     <div class="inner-wrap">
 	<p><label>Application Name</label> 
@@ -46,11 +46,12 @@
     	<input type="text" name="approverName"></input>
 	<label>Approver Type</label>
 	<select name="approverType">
-	        <option value="0"/>Clinical</option>
-	        <option value="1"/>Doctor</option>
-	        <option value="2"/>Developer</option>
-	        <option value="3"/>Application</option>
-	        <option value="4"/>IT</option>
+		<option value=''></option>
+	        <option value="Clinical"/>Clinical</option>
+	        <option value="Doctor"/>Doctor</option>
+	        <option value="Developer"/>Developer</option>
+	        <option value="Application"/>Application</option>
+	        <option value="IT"/>IT</option>
 	</select>
 	<input id="address" name="address"  type="hidden"></input>
 

@@ -81,24 +81,24 @@ func getApplications() (apps []Application) {
 		spec := fmt.Sprintf("CPU: %sGHz, RAM: %sGB, Capacity: %sGB, NICs: %s", cpu, ram, capacity, nic)
 		required := ""
 		current := ""
-		_, req, cur, err := contract.GetApprovalsStatus(nil)
-		log.Printf("Req: %s | Cur: %s\n", req, cur)
-		for i := 0; i < 5; i++ {
-			if int(req[i].Int64()) == 1 {
-				if required == "" {
-					required = approvers[i]
-				} else {
-					required = required + ", " + approvers[i]
-				}
-			}
-			if int(cur[i].Int64()) == 1 {
-				if current == "" {
-					current = approvers[i]
-				} else {
-					current = current + ", " + approvers[i]
-				}
-			}
-		}
+		/*		_, req, cur, err := contract.GetApprovalsStatus(nil)
+				log.Printf("Req: %s | Cur: %s\n", req, cur)
+				for i := 0; i < 5; i++ {
+					if int(req[i].Int64()) == 1 {
+						if required == "" {
+							required = approvers[i]
+						} else {
+							required = required + ", " + approvers[i]
+						}
+					}
+					if int(cur[i].Int64()) == 1 {
+						if current == "" {
+							current = approvers[i]
+						} else {
+							current = current + ", " + approvers[i]
+						}
+					}
+				}*/
 		apps = append(apps, Application{Name: name, Address: address.String(), Status: status, Specification: spec, RequiredApprovals: required, CurrentApprovals: current})
 	}
 	return apps

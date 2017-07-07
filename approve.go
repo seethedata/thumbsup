@@ -7,10 +7,8 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"html/template"
 	"log"
-	"math/big"
 	"net/http"
 	"os"
-	"strconv"
 	"strings"
 )
 
@@ -44,8 +42,7 @@ func approveHandler(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
 	contractAddress := r.Form["address"][0]
-	aType, err := strconv.ParseInt(r.Form["approverType"][0], 10, 64)
-	approverType := big.NewInt(aType)
+	approverType := r.Form["approverType"][0]
 	if err != nil {
 		log.Fatalf("Failed to convert approverType: %v", err)
 	}
