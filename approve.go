@@ -43,16 +43,14 @@ func approveHandler(w http.ResponseWriter, r *http.Request) {
 	r.ParseForm()
 	contractAddress := r.Form["address"][0]
 	approverType := r.Form["approverType"][0]
-	if err != nil {
-		log.Fatalf("Failed to convert approverType: %v", err)
-	}
+	approverName := r.Form["approverName"][0]
 
 	contract, err := NewContract(common.HexToAddress(contractAddress), conn)
 	if err != nil {
 		log.Fatalf("Failed to get contract: %v", err)
 	}
 	// Register Approval
-	_, err = contract.AddApprover(auth, common.HexToAddress(os.Getenv("USERADDRESS")), approverType)
+	_, err = contract.Approve(auth, approverName, approverType)
 	if err != nil {
 		log.Fatalf("Failed to register approval: %v", err)
 	}

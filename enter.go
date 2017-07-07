@@ -30,7 +30,6 @@ func submittedHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func createAppHandler(w http.ResponseWriter, r *http.Request) {
-	var reqApprovers []string
 	conn, err := ethclient.Dial("http://" + blockchainAPI)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
@@ -49,18 +48,26 @@ func createAppHandler(w http.ResponseWriter, r *http.Request) {
 	size := big.NewInt(s)
 
 	name := r.Form["applicationName"][0]
-	numApprovers := big.NewInt(int64(len(r.Form["approverType"])))
-
-	for _, a := range r.Form["approverType"] {
-		reqApprovers = append(reqApprovers, a)
-	}
 
 	// Deploy contract. It returns address, tx, contract, err
-	address, _, _, err := DeployContract(auth, conn, common.HexToAddress(os.Getenv("USERADDRESS")), size, name, numApprovers, reqApprovers)
+	address, _, _, err := DeployContract(auth, conn, common.HexToAddress(os.Getenv("USERADDRESS")), size, name)
 	if err != nil {
 		log.Fatalf("Failed to deploy new contract: %v", err)
 	}
 	log.Printf("Deploying contract at address %s\n", address.String())
+
+	contract, err := NewContract(address, conn)
+	if err != nil {
+		log.Fatalf("Failed to get contract: %v", err)
+	}
+
+	// Add required approvers to contract. It returns tx and err
+	for _, a := range r.Form["approverType"] {
+		_, err := contract.AddRequiredRole(auth, a)
+		if err != nil {
+			log.Fatalf("Failed to add approver: %v", err)
+		}
+	}
 
 	metaContract, err := NewMetaContract(common.HexToAddress(os.Getenv("METACONTRACT")), conn)
 	if err != nil {

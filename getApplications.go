@@ -35,6 +35,7 @@ func getApplications() (apps []Application) {
 	if err != nil {
 		log.Fatalf("Failed to get number of applications: %v", err)
 	}
+	log.Printf("Found %s applications\n", numberOfApplications)
 	max := int(numberOfApplications.Int64()) + 1
 	for i := 1; i < max; i++ {
 		address, name, err := metaContract.GetApplication(nil, big.NewInt(int64(i)))
@@ -44,13 +45,13 @@ func getApplications() (apps []Application) {
 
 		contract, err := NewContract(address, conn)
 		if err != nil {
-			log.Fatalf("Failed to get contract: %v", i, err)
+			log.Fatalf("Failed to get contract: %v", err)
 		}
 
 		var status string
-		s, err := contract.GetStatus(nil)
+		s, numReq, numAppr, err := contract.GetApprovalsStatus(nil)
 		if err != nil {
-			log.Fatalf("Failed to get status: %v", i, err)
+			log.Fatalf("Failed to get status: %v", err)
 		}
 		switch int(s.Int64()) {
 		case 1:
@@ -71,34 +72,39 @@ func getApplications() (apps []Application) {
 			status = "Unknown"
 		}
 		if err != nil {
-			log.Fatalf("Failed to get status: %v", i, err)
+			log.Fatalf("Failed to parse status: %v", err)
 		}
 
 		cpu, ram, capacity, nic, err := contract.GetSpecification(nil)
 		if err != nil {
-			log.Fatalf("Failed to get specification: %v", i, err)
+			log.Fatalf("Failed to get specification: %v", err)
 		}
 		spec := fmt.Sprintf("CPU: %sGHz, RAM: %sGB, Capacity: %sGB, NICs: %s", cpu, ram, capacity, nic)
 		required := ""
 		current := ""
-		/*		_, req, cur, err := contract.GetApprovalsStatus(nil)
-				log.Printf("Req: %s | Cur: %s\n", req, cur)
-				for i := 0; i < 5; i++ {
-					if int(req[i].Int64()) == 1 {
-						if required == "" {
-							required = approvers[i]
-						} else {
-							required = required + ", " + approvers[i]
-						}
-					}
-					if int(cur[i].Int64()) == 1 {
-						if current == "" {
-							current = approvers[i]
-						} else {
-							current = current + ", " + approvers[i]
-						}
-					}
-				}*/
+		for i := 0; i < int(numReq.Int64()); i++ {
+			role, err := contract.GetRequiredRole(nil, big.NewInt(int64(i)))
+			if err != nil {
+				log.Fatalf("Failed to get required role %s: %v", i, err)
+			}
+			if i > 0 {
+				required = required + ", "
+			}
+			required = required + role
+		}
+
+		log.Printf("numAppr is %s\n", numAppr.Int64())
+		for i := 0; i < int(numAppr.Int64()); i++ {
+			role, err := contract.GetApprovedRole(nil, big.NewInt(int64(i)))
+			if err != nil {
+				log.Fatalf("Failed to get approved role %s: %v", i, err)
+			}
+			if i > 0 {
+				current = current + ", "
+			}
+			current = current + role
+		}
+
 		apps = append(apps, Application{Name: name, Address: address.String(), Status: status, Specification: spec, RequiredApprovals: required, CurrentApprovals: current})
 	}
 	return apps
