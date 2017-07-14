@@ -16,6 +16,7 @@ var (
 	metacontract  string
 	router        *mux.Router
 	approvers     [5]string
+	maxGas        int
 )
 
 //Payload is a generic Container to hold data for templates
@@ -51,6 +52,7 @@ func initialize() {
 
 	pool = newPool(host, port, password)
 	approvers = [5]string{"Clinical", "Doctor", "Developer", "Application", "IT"}
+	maxGas = 4700000
 }
 
 func main() {

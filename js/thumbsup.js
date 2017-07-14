@@ -1,5 +1,3 @@
-var maxGas=4700000;
-
 $().ready(function(){
 	$("#enterForm").validate({
 		rules: {

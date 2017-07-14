@@ -11,6 +11,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+	"time"
 )
 
 func enterFormHandler(w http.ResponseWriter, r *http.Request) {
@@ -30,7 +31,7 @@ func submittedHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func createAppHandler(w http.ResponseWriter, r *http.Request) {
-	conn, err := ethclient.Dial("http://" + blockchainAPI)
+	conn, err := ethclient.Dial(blockchainAPI)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
 	}
@@ -50,24 +51,38 @@ func createAppHandler(w http.ResponseWriter, r *http.Request) {
 	name := r.Form["applicationName"][0]
 
 	// Deploy contract. It returns address, tx, contract, err
-	address, _, _, err := DeployContract(auth, conn, common.HexToAddress(os.Getenv("USERADDRESS")), size, name)
+	address, tx, _, err := DeployContract(auth, conn, common.HexToAddress(os.Getenv("USERADDRESS")), size, name)
 	if err != nil {
 		log.Fatalf("Failed to deploy new contract: %v", err)
 	}
-	log.Printf("Deploying contract at address %s\n", address.String())
+	log.Printf("Deploying contract at address %s in transaction 0x%x\n", address.String(), tx.Hash())
+	time.Sleep(250 * time.Millisecond)
 
 	contract, err := NewContract(address, conn)
 	if err != nil {
 		log.Fatalf("Failed to get contract: %v", err)
 	}
 
+	session := &ContractSession{
+		Contract: contract,
+		CallOpts: bind.CallOpts{
+			Pending: true,
+		},
+		TransactOpts: bind.TransactOpts{
+			From:   auth.From,
+			Signer: auth.Signer,
+			//GasLimit: big.NewInt(maxGas),
+		},
+	}
+	log.Printf("MaxGas is %v\n", maxGas)
 	// Add required approvers to contract. It returns tx and err
-	for _, a := range r.Form["approverType"] {
-		tx, err := contract.AddRequiredRole(auth, a)
-		log.Printf("Tx is %s\n", tx)
+	for n, a := range r.Form["approverType"] {
+		tx, err := session.AddRequiredRole(a)
+		log.Printf("%s | %s | AddApp Tx hash is 0x%x\n", n, a, tx.Hash())
 		if err != nil {
 			log.Fatalf("Failed to add approver: %v", err)
 		}
+		time.Sleep(5000 * time.Millisecond)
 	}
 
 	metaContract, err := NewMetaContract(common.HexToAddress(os.Getenv("METACONTRACT")), conn)
@@ -76,10 +91,10 @@ func createAppHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Update metacontract. It returns tx ,err
-	tx, err := metaContract.AddApplication(auth, address, name)
-	log.Printf("Tx is %s\n", tx)
+	mtx, err := metaContract.AddApplication(auth, address, name)
+	log.Printf("Meta Tx hash is 0x%x\n", mtx.Hash())
 	if err != nil {
-		log.Fatalf("Failed to add to metacontract: %v", err)
+		log.Fatalf("Failed to add application to metacontract: %v", err)
 	}
 
 	http.Redirect(w, r, mainURL+"/submitted", http.StatusFound)

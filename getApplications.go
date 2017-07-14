@@ -21,7 +21,7 @@ type Application struct {
 }
 
 func getApplications() (apps []Application) {
-	conn, err := ethclient.Dial("http://" + blockchainAPI)
+	conn, err := ethclient.Dial(blockchainAPI)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
 	}
@@ -93,7 +93,6 @@ func getApplications() (apps []Application) {
 			required = required + role
 		}
 
-		log.Printf("numAppr is %s\n", numAppr.Int64())
 		for i := 0; i < int(numAppr.Int64()); i++ {
 			role, err := contract.GetApprovedRole(nil, big.NewInt(int64(i)))
 			if err != nil {
