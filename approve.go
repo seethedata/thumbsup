@@ -30,7 +30,7 @@ func approvedHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func approveHandler(w http.ResponseWriter, r *http.Request) {
-	conn, err := ethclient.Dial("http://" + blockchainAPI)
+	conn, err := ethclient.Dial(blockchainAPI)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
 	}
