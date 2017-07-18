@@ -21,8 +21,10 @@ var (
 
 //Payload is a generic Container to hold data for templates
 type Payload struct {
-	URL          string        `json:"URL" redis:"URL"`
-	Applications []Application `json:data redis:data`
+	URL             string        `json:"URL" redis:"URL"`
+	Applications    []Application `json:applications redis:applications`
+	Approvals       []Approval    `json:approvals redis:approvals`
+	ApplicationName string        `json:applicationName redis:applicationName`
 }
 
 func newPool(addr string, port string, password string) *redis.Pool {
@@ -66,6 +68,7 @@ func main() {
 	router.HandleFunc("/approved", approvedHandler)
 	router.HandleFunc("/list", applicationListHandler)
 	router.HandleFunc("/deploy", deployHandler)
+	router.HandleFunc("/{applicationID}/audit", applicationAuditHandler)
 
 	http.Handle("/images/", http.FileServer(http.Dir("/app")))
 	http.Handle("/css/", http.FileServer(http.Dir("/app")))
