@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/ethclient"
@@ -58,6 +59,24 @@ func createAppHandler(w http.ResponseWriter, r *http.Request) {
 	log.Printf("Deploying contract at address %s in transaction 0x%x\n", address.String(), tx.Hash())
 	time.Sleep(250 * time.Millisecond)
 
+	ctx := context.Background()
+	for {
+		//        rct, err := conn.TransactionReceipt(ctx, tx.Hash())
+		rct, _ := conn.TransactionReceipt(ctx, tx.Hash())
+		log.Printf("Receipt is %v\n", rct)
+		//        if err != nil {
+		//            log.Fatalf("Error getting transaction receipt : %v\n", err)
+		//        }
+		if rct != nil {
+			break
+		}
+		time.Sleep(1000 * time.Millisecond)
+	}
+	//    if err.Error() == "not found" {
+	//        time.Sleep(20000 * time.Millisecond)
+	//        rct, err = conn.TransactionReceipt(ctx, tx.Hash())
+	//    }
+	//    log.Printf("OUTSIDE - Receipt is %v\n", rct)
 	contract, err := NewContract(address, conn)
 	if err != nil {
 		log.Fatalf("Failed to get contract: %v", err)
@@ -74,17 +93,35 @@ func createAppHandler(w http.ResponseWriter, r *http.Request) {
 			//GasLimit: big.NewInt(maxGas),
 		},
 	}
-	log.Printf("MaxGas is %v\n", maxGas)
+	//log.Printf("MaxGas is %v\n", maxGas)
 	// Add required approvers to contract. It returns tx and err
 	for n, a := range r.Form["approverType"] {
 		tx, err := session.AddRequiredRole(a)
-		log.Printf("%s | %s | AddApp Tx hash is 0x%x\n", n, a, tx.Hash())
+		log.Printf("%d | %s | AddApp Tx hash is 0x%x\n", n, a, tx.Hash())
 		if err != nil {
 			log.Fatalf("Failed to add approver: %v", err)
 		}
-		time.Sleep(5000 * time.Millisecond)
+		for {
+			rct, _ := conn.TransactionReceipt(ctx, tx.Hash())
+			log.Printf("Receipt is %v\n", rct)
+			if rct != nil {
+				break
+			}
+			time.Sleep(500 * time.Millisecond)
+		}
+		//        time.Sleep(5000 * time.Millisecond)
 	}
 
+	status, _ := session.GetStatus()
+	if status.Cmp(big.NewInt(0)) == 0 {
+		log.Printf("Problem with status...\n")
+		_, err := session.ChangeStatus(big.NewInt(1))
+		if err != nil {
+			log.Fatalf("Failed to change status of application: %v\n", err)
+		}
+	} else {
+		log.Printf("Status value is %d...\n", status)
+	}
 	metaContract, err := NewMetaContract(common.HexToAddress(os.Getenv("METACONTRACT")), conn)
 	if err != nil {
 		log.Fatalf("Failed to bind metacontract %v", err)

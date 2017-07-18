@@ -6,7 +6,6 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 	"log"
 	"math/big"
-	"time"
 )
 
 //Application represents an application submission
@@ -34,11 +33,11 @@ func getApprovers(addr common.Address) (appl []Approval, appName string) {
 	max := int(numApprovers.Int64())
 
 	for i := 0; i < max; i++ {
-		aName, aRole, err := contract.GetApprover(nil, big.NewInt(int64(i)))
+		aName, aRole, aDate, err := contract.GetApprover(nil, big.NewInt(int64(i)))
 		if err != nil {
 			log.Fatalf("Failed to get approver at index: %v: %v", i, err)
 		}
-		appl = append(appl, Approval{Name: aName, Role: aRole, ApprovalDate: time.Now().String()})
+		appl = append(appl, Approval{Name: aName, Role: aRole, ApprovalDate: aDate})
 	}
 	appName, err = contract.GetApplicationName(nil)
 	if err != nil {

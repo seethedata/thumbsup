@@ -67,7 +67,7 @@ func main() {
 	router.HandleFunc("/approve", approveHandler)
 	router.HandleFunc("/approved", approvedHandler)
 	router.HandleFunc("/list", applicationListHandler)
-	router.HandleFunc("/deploy", deployHandler)
+	router.HandleFunc("/{applicationID}/deploy", deployHandler)
 	router.HandleFunc("/{applicationID}/audit", applicationAuditHandler)
 
 	http.Handle("/images/", http.FileServer(http.Dir("/app")))

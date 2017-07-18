@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 func approveFormHandler(w http.ResponseWriter, r *http.Request) {
@@ -44,13 +45,14 @@ func approveHandler(w http.ResponseWriter, r *http.Request) {
 	contractAddress := r.Form["address"][0]
 	approverType := r.Form["approverType"][0]
 	approverName := r.Form["approverName"][0]
+	approverDate := time.Now().String()
 
 	contract, err := NewContract(common.HexToAddress(contractAddress), conn)
 	if err != nil {
 		log.Fatalf("Failed to get contract: %v", err)
 	}
 	// Register Approval
-	_, err = contract.Approve(auth, approverName, approverType)
+	_, err = contract.Approve(auth, approverName, approverType, approverDate)
 	if err != nil {
 		log.Fatalf("Failed to register approval: %v", err)
 	}

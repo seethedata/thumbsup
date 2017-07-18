@@ -3,8 +3,8 @@
 {{template "head" .}}
 <body>
 <script>
-function deployApp() {
-	window.location.href="/deploy";
+function deployApp(addr) {
+	window.location.href="/" + addr + "/deploy";
 }
 </script>
 
@@ -27,7 +27,7 @@ function deployApp() {
 				<td><a href="/{{.Address}}/audit">{{.Name}}</a></td>
 			<td>{{.Status}}
 				{{if eq .Status "Approved"}}
-					<button class="btn btn-success" onclick="deployApp();return false;">Deploy</button>	
+					<button class="btn btn-success" onclick="deployApp('{{.Address}}');return false;">Deploy</button>	
 				{{end}}
 			</td>
 			<td>{{.RequiredApprovals}}</td>
