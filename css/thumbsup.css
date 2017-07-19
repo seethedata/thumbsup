@@ -124,7 +124,7 @@ body{
 }
 
 .applicationList {
-	max-width:900px;
+	max-width:95%;
 	padding:30px;
 	margin:40px auto;
 }
@@ -141,7 +141,7 @@ body{
 }
 
 .screen {
-	max-width:900px;
+	max-width:95%;
 	padding:30px;
 	margin:40px auto;
 	overflow: hidden;

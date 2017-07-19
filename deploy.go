@@ -12,6 +12,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 func deployHandler(w http.ResponseWriter, r *http.Request) {
@@ -35,6 +36,12 @@ func deployHandler(w http.ResponseWriter, r *http.Request) {
 	_, err = contract.ChangeStatus(auth, big.NewInt(int64(5)))
 	if err != nil {
 		log.Fatalf("Failed to update contract status: %v", err)
+	}
+
+	deployedDate := time.Now().String()
+	_, err = contract.SetDeployedDate(auth, deployedDate)
+	if err != nil {
+		log.Fatalf("Failed to update deploy date: %v", err)
 	}
 
 	t, err := template.ParseFiles("templates/deploy.tmpl", "templates/head.tmpl")

@@ -15,7 +15,7 @@ type Approval struct {
 	ApprovalDate string `json:approvalDate`
 }
 
-func getApprovers(addr common.Address) (appl []Approval, appName string) {
+func getApprovers(addr common.Address) (appl []Approval) {
 	conn, err := ethclient.Dial(blockchainAPI)
 	if err != nil {
 		log.Fatalf("Failed to connect to the Ethereum client: %v", err)
@@ -39,9 +39,5 @@ func getApprovers(addr common.Address) (appl []Approval, appName string) {
 		}
 		appl = append(appl, Approval{Name: aName, Role: aRole, ApprovalDate: aDate})
 	}
-	appName, err = contract.GetApplicationName(nil)
-	if err != nil {
-		log.Fatalf("Failed to get application name: %v", err)
-	}
-	return appl, appName
+	return appl
 }

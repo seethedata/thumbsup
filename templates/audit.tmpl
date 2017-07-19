@@ -1,0 +1,55 @@
+<!DOCTYPE HTML>
+<html>
+{{template "head" .}}
+<body>
+<div class="form-style-10 applicationList">
+	<h1>ThumbsUp<span>Audit for {{range .Applications}}{{.Name}}{{end}}</span>
+		<a href="/list" id="listIcon"><span class="glyphicon glyphicon-th-list"></span></a>
+	</h1>
+<form>
+    <div class="inner-wrap">
+	<table class="table">
+		<thead>
+			<tr>
+			<th>Created Date</th>
+			<th>Deployed Date</th>
+			<th>Application Name</th>
+			<th>Specification</th>
+			</tr>
+		</thead>
+		<tbody>
+		{{range .Applications}}
+			<tr>
+			<td>{{.CreatedDate}}</td>
+			<td>{{.DeployedDate}}</td>
+			<td>{{.Name}}</td>
+			<td>{{.Specification}}</td>
+			</tr>
+		{{end}}
+		</tbody>
+		<thead>
+			<tr>
+			<th>Approval Date</th>
+			<th>Approver Role</th>
+			<th>Approver Name</th>
+			<th></th>
+			</tr>
+		</thead>
+		<tbody>
+		{{range .Approvals}}
+			<tr>
+			<td>{{.ApprovalDate}}</td>
+			<td>{{.Role}}</td>
+			<td>{{.Name}}</td>
+			<td></td>
+			</tr>
+		{{end}}
+		</tbody>
+	</table>
+    </div>
+</form>
+</div>
+
+</body>
+</html>
+
