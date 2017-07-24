@@ -13,6 +13,7 @@ import (
 //Application represents an application submission
 type Application struct {
 	Name              string `json:name`
+	Requester         string `json:requester`
 	Address           string `json:address`
 	CreatedDate       string `json:createdDate`
 	DeployedDate      string `json:deployedDate`
@@ -36,6 +37,11 @@ func getApplication(addr common.Address) Application {
 	name, err := contract.GetApplicationName(nil)
 	if err != nil {
 		log.Fatalf("Failed to get contract name: %v", err)
+	}
+
+	requester, err := contract.GetRequesterName(nil)
+	if err != nil {
+		log.Fatalf("Failed to get requester: %v", err)
 	}
 
 	cd, err := contract.GetCreatedDate(nil)
@@ -105,6 +111,7 @@ func getApplication(addr common.Address) Application {
 
 	return Application{
 		Name:              name,
+		Requester:         requester,
 		Address:           addr.String(),
 		Status:            status,
 		CreatedDate:       cd,

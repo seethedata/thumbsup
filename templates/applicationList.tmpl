@@ -16,6 +16,7 @@ function deployApp(addr) {
 		<thead>
 			<tr>
 			<th>Application Name</th>
+			<th>Requester</th>
 			<th>Application Status</th>
 			<th>Required Approvals</th>
 			<th>Current Approvals</th>
@@ -25,6 +26,7 @@ function deployApp(addr) {
 		{{range .Applications}}
 			<tr>
 				<td><a href="/{{.Address}}/audit">{{.Name}}</a></td>
+				<td>{{.Requester}}</td>
 			<td>{{.Status}}
 				{{if eq .Status "Approved"}}
 					<button class="btn btn-success" onclick="deployApp('{{.Address}}');return false;">Deploy</button>	

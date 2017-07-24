@@ -2,6 +2,7 @@ $().ready(function(){
 	$("#enterForm").validate({
 		rules: {
 			applicationName: "required",
+			requester: "required",
 			approverType : {
 				required: true,
 				minlength: 1

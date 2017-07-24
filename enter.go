@@ -50,10 +50,11 @@ func createAppHandler(w http.ResponseWriter, r *http.Request) {
 	size := big.NewInt(s)
 
 	name := r.Form["applicationName"][0]
+	requester := r.Form["requester"][0]
 
 	createdDate := time.Now().String()
 	// Deploy contract. It returns address, tx, contract, err
-	address, tx, _, err := DeployContract(auth, conn, common.HexToAddress(os.Getenv("USERADDRESS")), size, name, createdDate)
+	address, tx, _, err := DeployContract(auth, conn, common.HexToAddress(os.Getenv("USERADDRESS")), size, name, requester, createdDate)
 	if err != nil {
 		log.Fatalf("Failed to deploy new contract: %v", err)
 	}
